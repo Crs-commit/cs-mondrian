@@ -1,0 +1,2 @@
+﻿n_units,len_truth_mean,len_truth_median,len_lie_mean,len_lie_median,len_diff_mean,len_diff_median,lie_longer_ratio,length_only_lr_auc_mean,length_only_lr_auc_min,length_only_lr_auc_max,backbone_has_explicit_length_scalar
+1200,467.0883333333333,425.0,361.02,339.5,-106.06833333333333,-78.5,0.2225,0.6481238653122002,0.6202530564852127,0.6679206625230282,False

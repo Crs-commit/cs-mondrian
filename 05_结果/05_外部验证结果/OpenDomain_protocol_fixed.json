@@ -1,0 +1,57 @@
+{
+  "protocol": "CS_Mondrian_OpenDomain_外部验证修复方案 v1.0",
+  "stage": "stage1_backbone_fixed",
+  "code": "fixed_stage1.py",
+  "seeds": [
+    7,
+    42,
+    123,
+    2024,
+    2026
+  ],
+  "folds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "test_scheme": "KFold(n_splits=5, shuffle=True, random_state=seed) over 511 subject IDs",
+  "pool_split": {
+    "fit": 0.375,
+    "selection": 0.125,
+    "calibration": 0.5
+  },
+  "model": {
+    "word_tfidf": {
+      "ngram_range": [
+        1,
+        2
+      ],
+      "min_df": 2,
+      "sublinear_tf": true
+    },
+    "char_tfidf": {
+      "analyzer": "char",
+      "ngram_range": [
+        3,
+        5
+      ],
+      "min_df": 2,
+      "sublinear_tf": true
+    },
+    "classifier": "LogisticRegression(penalty=l2, C=1.0, max_iter=2000, lbfgs)",
+    "label_map": {
+      "truth": 0,
+      "lie": 1
+    }
+  },
+  "calibration_salt": "csmondrian-ext-v2.0",
+  "calibration_rule": "hash(salt|subject|class) -> 1 text per calib subject per class",
+  "input": {
+    "opendeception_clean.csv": "3f15a3e3440f7d8cec1b6e1e383798e22e7f8c2dce93ff45a2b4eb27bc3fc9cd"
+  },
+  "sklearn": "1.9.0",
+  "numpy": "2.5.2",
+  "n_runs": 25
+}

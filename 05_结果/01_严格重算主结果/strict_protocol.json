@@ -1,0 +1,205 @@
+{
+  "version": "1.0",
+  "purpose": "CS-Mondrian strict finite-sample conformal recompute",
+  "frozen_spec": {
+    "datasets": [
+      "SEUMLD",
+      "MDPE"
+    ],
+    "configs": [
+      "OADNet_text",
+      "OADNet_audio"
+    ],
+    "folds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "seeds": [
+      7,
+      42,
+      123,
+      2024,
+      2026
+    ],
+    "alpha_total": 0.1,
+    "C_FP": 1.0,
+    "cost_ratios": [
+      1.0,
+      2.0,
+      3.0,
+      5.0,
+      10.0
+    ],
+    "C_rev_values": [
+      0.25,
+      0.5,
+      1.0,
+      2.0
+    ],
+    "methods": [
+      "split_conformal",
+      "mondrian",
+      "cs_mondrian",
+      "confidence_reject_tuned",
+      "fixed_alpha",
+      "lie_only",
+      "arithmetic",
+      "geometric"
+    ],
+    "primary_endpoint": {
+      "cost_ratio": 3.0,
+      "C_rev": 0.5
+    }
+  },
+  "algorithm": {
+    "qhat": "ceil((n+1)(1-alpha)) finite-sample conformal rank quantile",
+    "scores": {
+      "s_truth": "p_lie",
+      "s_lie": "1-p_lie"
+    },
+    "include": {
+      "include_truth": "s_truth<=q_truth",
+      "include_lie": "s_lie<=q_lie"
+    },
+    "decision": {
+      "size1": "auto-predict",
+      "size0": "reject(empty)",
+      "size2": "reject(ambiguous)"
+    },
+    "design_decisions": [
+      "规范3.4字面 include 公式与3.1分数定义矛盾，采用与3.1自洽的标准Mondrian共形规则，保证类条件覆盖率>=1-alpha；字面规则会把高置信lie从lie集合排除，破坏保证。",
+      "lie_only: alpha_truth=0 -> q_truth=inf -> truth类永不拒判。",
+      "confidence_reject_tuned/arithmetic/geometric 为无预测集合方法，其 label_coverage=接受且预测正确率。"
+    ]
+  },
+  "metrics": {
+    "decision_coverage": "singleton/n_test",
+    "acceptance_rate": "n_accept/n_test (alias)",
+    "reject_rate": "n_reject/n_test",
+    "label_coverage": "mean(contains_true_label) (empirical)",
+    "label_coverage_truth": "mean over truth samples",
+    "label_coverage_lie": "mean over lie samples"
+  },
+  "statistics": {
+    "unit": "independent subject (SEUMLD 76, MDPE 191)",
+    "bootstrap": 10000,
+    "permutation": 10000,
+    "wilcoxon": "signed-rank auxiliary",
+    "sign_test": "exact binomial"
+  },
+  "inputs": {
+    "npz_root": "<USER_HOME>\\Desktop\\<DECEPTION_DATA>",
+    "subject_map": "<USER_HOME>\\Desktop\\<PAPER_RESULTS>\\subject_map.csv"
+  },
+  "outputs": {
+    "dir": "<USER_HOME>\\Desktop\\<COST_REPO>\\09_supplemental_validation\\10_strict_recompute",
+    "old_results_preserved": true
+  },
+  "code": {
+    "script": "<USER_HOME>\\Desktop\\<COST_REPO>\\09_supplemental_validation\\scripts\\strict_recompute.py",
+    "sha256_prefix": "0e3a9a0bc7e6fa9f"
+  },
+  "runtime": {
+    "start_time": "2026-09-04 19:18:09",
+    "elapsed_sec": 109.2,
+    "run_rows": 16000,
+    "subject_rows": 427200,
+    "qhat_rows": 5500,
+    "audit_pass": 100,
+    "audit_total": 100,
+    "python": "3.11.9"
+  },
+  "subject_audit": {
+    "pass": 100,
+    "total": 100
+  },
+  "unit_tests": {
+    "pass": 11,
+    "total": 11,
+    "all_pass": true
+  },
+  "cost_region_32": {
+    "n_cells": 32,
+    "n_wins": 31,
+    "win_rate_pct": 96.9,
+    "n_significant_p05": 28
+  },
+  "qhat_samples": {
+    "rows": 5500,
+    "cs_mondrian_q_lie_examples": [
+      {
+        "dataset": "SEUMLD",
+        "config": "OADNet_text",
+        "cost_ratio": 1.0,
+        "q_truth": 0.5787913203239441,
+        "q_lie": 0.9311169683933258
+      },
+      {
+        "dataset": "SEUMLD",
+        "config": "OADNet_text",
+        "cost_ratio": 2.0,
+        "q_truth": 0.5787913203239441,
+        "q_lie": 0.9695759806782007
+      },
+      {
+        "dataset": "SEUMLD",
+        "config": "OADNet_text",
+        "cost_ratio": 3.0,
+        "q_truth": 0.5787913203239441,
+        "q_lie": 0.9730906989425421
+      },
+      {
+        "dataset": "SEUMLD",
+        "config": "OADNet_text",
+        "cost_ratio": 5.0,
+        "q_truth": 0.5787913203239441,
+        "q_lie": 0.9770998768508434
+      },
+      {
+        "dataset": "SEUMLD",
+        "config": "OADNet_text",
+        "cost_ratio": 10.0,
+        "q_truth": 0.5787913203239441,
+        "q_lie": 0.9821432009339333
+      },
+      {
+        "dataset": "SEUMLD",
+        "config": "OADNet_text",
+        "cost_ratio": 1.0,
+        "q_truth": 0.4585287272930145,
+        "q_lie": 0.8621947467327118
+      },
+      {
+        "dataset": "SEUMLD",
+        "config": "OADNet_text",
+        "cost_ratio": 2.0,
+        "q_truth": 0.4585287272930145,
+        "q_lie": 0.9008791446685791
+      },
+      {
+        "dataset": "SEUMLD",
+        "config": "OADNet_text",
+        "cost_ratio": 3.0,
+        "q_truth": 0.4585287272930145,
+        "q_lie": 0.9182649329304695
+      },
+      {
+        "dataset": "SEUMLD",
+        "config": "OADNet_text",
+        "cost_ratio": 5.0,
+        "q_truth": 0.4585287272930145,
+        "q_lie": 0.9205631241202354
+      },
+      {
+        "dataset": "SEUMLD",
+        "config": "OADNet_text",
+        "cost_ratio": 10.0,
+        "q_truth": 0.4585287272930145,
+        "q_lie": 0.9451616778969765
+      }
+    ]
+  }
+}

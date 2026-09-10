@@ -1,0 +1,36 @@
+{
+  "protocol": "CAPACITY_AWARE_EXTENSION_PROTOCOL_2026-09-04.md v1.0",
+  "grid": [
+    0.05,
+    0.075,
+    0.1,
+    0.15,
+    0.2,
+    0.25,
+    0.3
+  ],
+  "budgets": [
+    0.5,
+    0.6,
+    0.7,
+    0.8
+  ],
+  "anchor_a": 0.1,
+  "r": 3.0,
+  "C_FP": 1.0,
+  "C_rev": 0.5,
+  "split_seed": 20260904,
+  "subject_ci_seed": 7,
+  "start_time": "2026-09-04 23:43:19",
+  "python": "3.11.9",
+  "code_sha256": "c71a8ee6cb4d68e8",
+  "regression": "PASS",
+  "elapsed_sec": 13.5,
+  "unit_rows": 600,
+  "subject_rows": 16020,
+  "sel_rows": 2800,
+  "split_rows": 100,
+  "subject_delta_rows": 10680,
+  "leakage_audit_pass": 100,
+  "leakage_audit_total": 100
+}

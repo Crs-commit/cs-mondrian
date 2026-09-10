@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "primary_n_units": 1200,
+  "primary_effect": -0.03154166666666666,
+  "joint_primary_holm_values": [
+    0.00019998000199980003,
+    0.00019998000199980003
+  ],
+  "planA_n_units_each": [
+    1200,
+    1200,
+    1200
+  ],
+  "planA_all_ci_upper_below_zero": true,
+  "planA_all_holm_below_0_05": true,
+  "planA_trace_rows": 1800,
+  "planA_selected_rows": 150,
+  "planA_selected_all_feasible": true,
+  "planB_max_decomposition_residual": 0.0,
+  "planB_max_breakeven_residual": 0.0,
+  "planB_cs_vs_m_star": 0.7721063982746228,
+  "length_only_lr_runs": 25
+}

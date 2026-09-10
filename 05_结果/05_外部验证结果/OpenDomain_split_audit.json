@@ -1,0 +1,91 @@
+{
+  "protocol": "CS_Mondrian_OpenDomain_外部验证修复方案_v1.0",
+  "n_subjects": 511,
+  "seeds": [
+    7,
+    42,
+    123,
+    2024,
+    2026
+  ],
+  "test_scheme": "KFold(n_splits=5, shuffle=True, random_state=seed) over 511 subject IDs",
+  "pool_split": {
+    "fit": 0.375,
+    "selection": 0.125,
+    "calibration": 0.5
+  },
+  "pool_split_rng": "np.random.RandomState([seed, fold])",
+  "per_seed": [
+    {
+      "seed": 7,
+      "fold_sizes": [
+        102,
+        102,
+        102,
+        102,
+        103
+      ],
+      "union_equals_all": true,
+      "pairwise_disjoint": true
+    },
+    {
+      "seed": 42,
+      "fold_sizes": [
+        102,
+        102,
+        102,
+        102,
+        103
+      ],
+      "union_equals_all": true,
+      "pairwise_disjoint": true
+    },
+    {
+      "seed": 123,
+      "fold_sizes": [
+        102,
+        102,
+        102,
+        102,
+        103
+      ],
+      "union_equals_all": true,
+      "pairwise_disjoint": true
+    },
+    {
+      "seed": 2024,
+      "fold_sizes": [
+        102,
+        102,
+        102,
+        102,
+        103
+      ],
+      "union_equals_all": true,
+      "pairwise_disjoint": true
+    },
+    {
+      "seed": 2026,
+      "fold_sizes": [
+        102,
+        102,
+        102,
+        102,
+        103
+      ],
+      "union_equals_all": true,
+      "pairwise_disjoint": true
+    }
+  ],
+  "test_coverage": {
+    "min": 5,
+    "max": 5,
+    "all_equal_5": true
+  },
+  "acceptance": {
+    "each_subject_once_per_seed": true,
+    "each_subject_5_tests": true,
+    "partitions_pairwise_disjoint": true,
+    "normalized_dups_global_zero": true
+  }
+}

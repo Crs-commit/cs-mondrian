@@ -1,0 +1,163 @@
+{
+  "protocol": "PROTOCOL_PlanE_类别条件alpha公平基线与最小补强实验_v1.md",
+  "config_echo": {
+    "grid": [
+      0.05,
+      0.075,
+      0.1,
+      0.15,
+      0.2,
+      0.25,
+      0.3
+    ],
+    "budgets": [
+      0.6,
+      0.7,
+      0.8
+    ],
+    "r_primary": 3.0,
+    "r_anchor": 1.0,
+    "r_sensitivity": [
+      2.0,
+      5.0,
+      10.0
+    ],
+    "C_FP": 1.0,
+    "C_rev": 0.5,
+    "n_boot": 10000,
+    "n_perm": 10000,
+    "stat_seed": 20260908,
+    "seeds": [
+      7,
+      42,
+      123,
+      2024,
+      2026
+    ],
+    "folds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  "r1_anchor": {
+    "n_runs_checked": 150,
+    "all_identical_within_1e-12": true,
+    "max_abs_q_diff": 0.0,
+    "max_abs_cost_diff": 0.0
+  },
+  "split_integrity": {
+    "n_runs_checked": 150,
+    "all_disjoint": true,
+    "per_source_coverage": [
+      {
+        "source": "SEUMLD_OADNet_text",
+        "union_sizes": {
+          "7": 76,
+          "42": 76,
+          "123": 76,
+          "2024": 76,
+          "2026": 76
+        },
+        "n_units": 76,
+        "occurrence_min": 5,
+        "occurrence_max": 5,
+        "seeds_union_consistent": true,
+        "every_unit_tested_at_least_once": true,
+        "strict_partition_per_seed": true
+      },
+      {
+        "source": "SEUMLD_OADNet_audio",
+        "union_sizes": {
+          "7": 76,
+          "42": 76,
+          "123": 76,
+          "2024": 76,
+          "2026": 76
+        },
+        "n_units": 76,
+        "occurrence_min": 5,
+        "occurrence_max": 5,
+        "seeds_union_consistent": true,
+        "every_unit_tested_at_least_once": true,
+        "strict_partition_per_seed": true
+      },
+      {
+        "source": "MDPE_OADNet_text",
+        "union_sizes": {
+          "7": 191,
+          "42": 191,
+          "123": 191,
+          "2024": 191,
+          "2026": 191
+        },
+        "n_units": 191,
+        "occurrence_min": 5,
+        "occurrence_max": 5,
+        "seeds_union_consistent": true,
+        "every_unit_tested_at_least_once": true,
+        "strict_partition_per_seed": true
+      },
+      {
+        "source": "MDPE_OADNet_audio",
+        "union_sizes": {
+          "7": 191,
+          "42": 191,
+          "123": 191,
+          "2024": 191,
+          "2026": 191
+        },
+        "n_units": 191,
+        "occurrence_min": 5,
+        "occurrence_max": 5,
+        "seeds_union_consistent": true,
+        "every_unit_tested_at_least_once": true,
+        "strict_partition_per_seed": true
+      },
+      {
+        "source": "OpenDeception",
+        "union_sizes": {
+          "7": 511,
+          "42": 511,
+          "123": 511,
+          "2024": 511,
+          "2026": 511
+        },
+        "n_units": 511,
+        "occurrence_min": 5,
+        "occurrence_max": 5,
+        "seeds_union_consistent": true,
+        "every_unit_tested_at_least_once": true,
+        "strict_partition_per_seed": true
+      },
+      {
+        "source": "CrossCultural",
+        "union_sizes": {
+          "7": 823,
+          "42": 789,
+          "123": 809,
+          "2024": 803,
+          "2026": 813
+        },
+        "n_units": 1192,
+        "occurrence_min": 1,
+        "occurrence_max": 12,
+        "seeds_union_consistent": false,
+        "every_unit_tested_at_least_once": true,
+        "strict_partition_per_seed": false
+      }
+    ]
+  },
+  "qhat_monotonicity": {
+    "n_checks": 300,
+    "all_monotone": true
+  },
+  "cost_decomposition": {
+    "max_residual_across_runs": 0.0,
+    "below_1e-12": true
+  },
+  "no_test_leakage_note": "selection 候选 qhat 仅由 selection 集计算（qhats_from(sel_*)）；最终 qhat 仅由 final-calibration 计算（qhats_from(fin_*）后仅作用于 test 预测集合构造；选点代码不读取任何 test 数组。",
+  "failures": []
+}
