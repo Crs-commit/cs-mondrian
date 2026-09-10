@@ -37,9 +37,9 @@ from singh_arm_recompute import (
 # 0. 配置（冻结口径，与 strict_protocol.json 一致）
 # ============================================================
 INTEGRATION_ROOT = _PKG_ROOT
-NPZ_ROOT = os.path.join(INTEGRATION_ROOT, '06_实验数据')
+NPZ_ROOT = os.path.join(os.environ.get("CS_MONDRIAN_DATA", os.path.join(_PKG_ROOT, "04_数据")), "01_中文_SEUMLD与MDPE")
 SUBJECT_MAP_PATH = os.path.join(NPZ_ROOT, 'subject_map.csv')
-OUT_DIR = os.path.join(INTEGRATION_ROOT, '02_严格重算输出')
+OUT_DIR = os.environ.get("CS_MONDRIAN_OUTPUT", os.path.join(_PKG_ROOT, "recomputed"))
 
 DATASETS = ['SEUMLD', 'MDPE']
 CONFIGS = ['OADNet_text', 'OADNet_audio']

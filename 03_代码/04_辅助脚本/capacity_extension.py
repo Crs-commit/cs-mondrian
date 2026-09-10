@@ -54,9 +54,9 @@ from strict_recompute import conformal_quantile, build_flags, method_mondrian, c
 # ============================================================
 # 0. 冻结配置
 # ============================================================
-DATA_ROOT = os.environ.get("DECEPTION_DATA_ROOT", os.path.join(_HOME, "Desktop", "<DECEPTION_DATA>"))
-SUBJECT_MAP_PATH = os.environ.get("SUBJECT_MAP_PATH", os.path.join(_HOME, "Desktop", "<PAPER_RESULTS>", "subject_map.csv"))
-OUT_DIR = SCRIPT_DIR
+DATA_ROOT = os.environ.get("CS_MONDRIAN_DATA", os.path.join(_PKG_ROOT, "04_数据"))
+SUBJECT_MAP_PATH = os.path.join(DATA_ROOT, "01_中文_SEUMLD与MDPE", "subject_map.csv")
+OUT_DIR = os.path.join(os.environ.get("CS_MONDRIAN_OUTPUT", os.path.join(_PKG_ROOT, "recomputed")), "capacity")
 
 DATASETS = ['SEUMLD', 'MDPE']
 CONFIGS = ['OADNet_text', 'OADNet_audio']
@@ -89,7 +89,7 @@ def get_subject_ids(dataset, fold, role, n_samples):
 
 
 def load_npz(dataset, config, fold, seed):
-    path = os.path.join(DATA_ROOT, dataset, 'preds', f'{config}_f{fold}_s{seed}.npz')
+    path = os.path.join(DATA_ROOT, '01_中文_SEUMLD与MDPE', dataset + '_preds', f'{config}_f{fold}_s{seed}.npz')
     if not os.path.exists(path):
         raise FileNotFoundError(path)
     return np.load(path, allow_pickle=True)

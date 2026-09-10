@@ -45,10 +45,10 @@ from scipy import stats
 # ============================================================
 # 0. 配置（冻结口径，与协议一致）
 # ============================================================
-DATA_ROOT = os.environ.get("DECEPTION_DATA_ROOT", os.path.join(_HOME, "Desktop", "<DECEPTION_DATA>"))
-SUBJECT_MAP_PATH = os.environ.get("SUBJECT_MAP_PATH", os.path.join(_HOME, "Desktop", "<PAPER_RESULTS>", "subject_map.csv"))
-PROJECT_ROOT = os.environ.get("STRICT_PROJECT_ROOT", os.path.join(_HOME, "Desktop", "<COST_REPO>", "09_supplemental_validation"))
-OUT_DIR = os.path.join(PROJECT_ROOT, '10_strict_recompute')
+DATA_ROOT = os.environ.get("CS_MONDRIAN_DATA", os.path.join(_PKG_ROOT, "04_数据"))
+SUBJECT_MAP_PATH = os.path.join(DATA_ROOT, "01_中文_SEUMLD与MDPE", "subject_map.csv")
+PROJECT_ROOT = os.environ.get("STRICT_PROJECT_ROOT", _PKG_ROOT)
+OUT_DIR = os.environ.get("CS_MONDRIAN_OUTPUT", os.path.join(_PKG_ROOT, "recomputed"))
 LOG_DIR = os.path.join(OUT_DIR, 'logs')
 
 DATASETS = ['SEUMLD', 'MDPE']
@@ -327,7 +327,7 @@ def get_subject_ids(dataset, fold, role, n_samples):
 
 
 def load_npz(dataset, config, fold, seed):
-    path = os.path.join(DATA_ROOT, dataset, 'preds', f'{config}_f{fold}_s{seed}.npz')
+    path = os.path.join(DATA_ROOT, '01_中文_SEUMLD与MDPE', dataset + '_preds', f'{config}_f{fold}_s{seed}.npz')
     return np.load(path, allow_pickle=True)
 
 
@@ -617,7 +617,8 @@ def downstream_stats(subj_df):
                     # paired sign-flip permutation
                     perm_signs = rng.choice([-1, 1], size=(n_perm, len(deltas)))
                     perm_means = np.mean(deltas[None, :] * perm_signs, axis=1)
-                    p_perm = float(np.mean(np.abs(perm_means) >= np.abs(obs_mean)))
+                    # Monte Carlo random sign flips: include the observed arrangement.
+                    p_perm = float((np.count_nonzero(np.abs(perm_means) >= np.abs(obs_mean)) + 1) / (len(perm_means) + 1))
 
                     # Wilcoxon signed-rank
                     try:
@@ -739,8 +740,11 @@ def fair_matching(run_df):
 # 11. 差异报告（严格版 vs 旧版）
 # ============================================================
 def diff_report(stat_df, ablation_summary, run_df):
-    old_stats = pd.read_csv(os.path.join(PROJECT_ROOT, '06_statistics',
-                                         'cs_vs_mondrian_subject_aggregated_stats.csv'))
+    old_stats_path = os.environ.get('STRICT_OLD_STATS')
+    if not old_stats_path:
+        print('Historical pre-strict comparison skipped: STRICT_OLD_STATS not supplied.')
+        return pd.DataFrame()
+    old_stats = pd.read_csv(old_stats_path)
     # 对齐主终点
     primary_keys = ['dataset', 'config', 'cost_ratio', 'C_rev']
     new_primary = stat_df[(stat_df['cost_ratio'] == 3) & (stat_df['C_rev'] == 0.5)].copy()
@@ -837,6 +841,7 @@ def write_protocol(meta, unit_test_df, qhat_df, region_summary):
         'statistics': {
             'unit': 'independent subject (SEUMLD 76, MDPE 191)',
             'bootstrap': 10000, 'permutation': 10000,
+            'monte_carlo_p': '(b+1)/(B+1), two-sided absolute mean, ties included',
             'wilcoxon': 'signed-rank auxiliary', 'sign_test': 'exact binomial',
         },
         'inputs': {

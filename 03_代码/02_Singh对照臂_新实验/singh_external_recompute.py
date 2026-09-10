@@ -32,10 +32,10 @@ INTEGRATION_ROOT = os.environ.get(
     _PKG_ROOT
 )
 EXT_ROOT = os.path.join(INTEGRATION_ROOT, '12_外部验证与扩展实验_2026-09-07')
-OUT_DIR = os.path.join(INTEGRATION_ROOT, '02_严格重算输出')
+OUT_DIR = os.environ.get("CS_MONDRIAN_OUTPUT", os.path.join(_PKG_ROOT, "recomputed"))
 
-OPEN_DOMAIN_PREDS = os.path.join(EXT_ROOT, r'05_双外部验证_结果\修复后_权威\ext_validation_fixed\OpenDeception\preds')
-CROSS_CULTURAL_PREDS = os.path.join(EXT_ROOT, r'09_GlobalAlpha_v2_修复定稿\global_alpha_opt_v2\CrossCultural_preds_v2')
+OPEN_DOMAIN_PREDS = os.path.join(os.environ.get("CS_MONDRIAN_DATA", os.path.join(_PKG_ROOT, "04_数据")), "02_OpenDomain_修复后权威")
+CROSS_CULTURAL_PREDS = os.path.join(os.environ.get("CS_MONDRIAN_DATA", os.path.join(_PKG_ROOT, "04_数据")), "04_CrossCultural_v2_Singh口径")
 
 FOLDS = [0, 1, 2, 3, 4]
 SEEDS = [7, 42, 123, 2024, 2026]
@@ -220,7 +220,8 @@ def run_external_dataset(name, preds_dir, unit_type):
                 # paired sign-flip permutation
                 perm_signs = rng.choice([-1, 1], size=(N_PERM, n_units))
                 perm_means = np.mean(deltas[None, :] * perm_signs, axis=1)
-                p_perm = float(np.mean(np.abs(perm_means) >= np.abs(obs_mean)))
+                # Monte Carlo random sign flips: include the observed arrangement.
+                p_perm = float((np.count_nonzero(np.abs(perm_means) >= np.abs(obs_mean)) + 1) / (len(perm_means) + 1))
 
                 # Wilcoxon
                 try:

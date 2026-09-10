@@ -9,7 +9,7 @@ import numpy as np
 import pandas as pd
 import os
 
-OUT = os.path.join(_PKG_ROOT, '05_结果', '01_严格重算主结果')
+OUT = os.environ.get("CS_MONDRIAN_OUTPUT", os.path.join(_PKG_ROOT, "recomputed"))
 
 print("=" * 60)
 print("替代调度消融自检清单")

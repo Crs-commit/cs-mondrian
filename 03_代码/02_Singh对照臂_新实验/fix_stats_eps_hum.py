@@ -14,7 +14,7 @@ import os
 from scipy import stats
 
 INTEGRATION_ROOT = _PKG_ROOT
-OUT_DIR = os.path.join(INTEGRATION_ROOT, '02_严格重算输出')
+OUT_DIR = os.environ.get("CS_MONDRIAN_OUTPUT", os.path.join(_PKG_ROOT, "recomputed"))
 
 DATASETS = ['SEUMLD', 'MDPE']
 CONFIGS = ['OADNet_text', 'OADNet_audio']
@@ -39,7 +39,8 @@ def subject_level_stats(deltas, rng, n_boot=N_BOOT, n_perm=N_PERM):
     ci_low, ci_high = np.percentile(boot_means, [2.5, 97.5])
     perm_signs = rng.choice([-1, 1], size=(n_perm, n))
     perm_means = np.mean(deltas[None, :] * perm_signs, axis=1)
-    p_perm = float(np.mean(np.abs(perm_means) >= np.abs(obs_mean)))
+    # Monte Carlo random sign flips: include the observed arrangement.
+    p_perm = float((np.count_nonzero(np.abs(perm_means) >= np.abs(obs_mean)) + 1) / (len(perm_means) + 1))
     try:
         if np.all(deltas == 0):
             w_p = 1.0

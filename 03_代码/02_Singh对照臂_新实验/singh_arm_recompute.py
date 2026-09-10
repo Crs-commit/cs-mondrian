@@ -26,9 +26,9 @@ from scipy import stats
 # 0. 配置（冻结口径，与 strict_protocol.json 一致）
 # ============================================================
 INTEGRATION_ROOT = _PKG_ROOT
-NPZ_ROOT = os.path.join(INTEGRATION_ROOT, '06_实验数据')
+NPZ_ROOT = os.path.join(os.environ.get("CS_MONDRIAN_DATA", os.path.join(_PKG_ROOT, "04_数据")), "01_中文_SEUMLD与MDPE")
 SUBJECT_MAP_PATH = os.path.join(NPZ_ROOT, 'subject_map.csv')
-OUT_DIR = os.path.join(INTEGRATION_ROOT, '02_严格重算输出')  # 结果 CSV 放这里，独立命名
+OUT_DIR = os.environ.get("CS_MONDRIAN_OUTPUT", os.path.join(_PKG_ROOT, "recomputed"))
 
 DATASETS = ['SEUMLD', 'MDPE']
 CONFIGS = ['OADNet_text', 'OADNet_audio']
@@ -289,7 +289,8 @@ def subject_level_stats(deltas, rng, n_boot=N_BOOT, n_perm=N_PERM):
     # paired sign-flip permutation
     perm_signs = rng.choice([-1, 1], size=(n_perm, n))
     perm_means = np.mean(deltas[None, :] * perm_signs, axis=1)
-    p_perm = float(np.mean(np.abs(perm_means) >= np.abs(obs_mean)))
+    # Monte Carlo random sign flips: include the observed arrangement.
+    p_perm = float((np.count_nonzero(np.abs(perm_means) >= np.abs(obs_mean)) + 1) / (len(perm_means) + 1))
 
     # Wilcoxon signed-rank
     try:

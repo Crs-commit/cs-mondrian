@@ -14,7 +14,7 @@ import json
 import os
 import time
 
-OUT = os.environ.get("STRICT_OUT_DIR", os.path.join(_HOME, "Desktop", "<COST_REPO>", "09_supplemental_validation", "10_strict_recompute"))
+OUT = os.environ.get("CS_MONDRIAN_OUTPUT", os.path.join(_PKG_ROOT, "recomputed"))
 
 
 def fmt_p(p):
@@ -25,7 +25,8 @@ def fmt_p(p):
 
 def main():
     stat_df = pd.read_csv(os.path.join(OUT, 'strict_subject_aggregated_stats.csv'))
-    diff_df = pd.read_csv(os.path.join(OUT, 'strict_vs_old_primary_endpoint_diff.csv'))
+    diff_path = os.path.join(OUT, 'strict_vs_old_primary_endpoint_diff.csv')
+    diff_df = pd.read_csv(diff_path) if os.path.exists(diff_path) else pd.DataFrame()
     abl = pd.read_csv(os.path.join(OUT, 'strict_ablation_summary.csv'))
     run_df = pd.read_csv(os.path.join(OUT, 'strict_core_run_level.csv'),
                          usecols=['dataset', 'config', 'method', 'cost_ratio', 'C_rev',

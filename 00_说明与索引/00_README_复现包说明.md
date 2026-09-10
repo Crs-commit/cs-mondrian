@@ -130,11 +130,11 @@ Singh 脚本仍使用 `INTEGRATION_ROOT` 下的历史相对目录布局。
 ## 八、可移植性说明
 
 路径脱敏与可运行性是两项不同检查。部分脚本仍依赖历史相对目录或占位配置，
-需按输入路径设置后运行。本次公开范围修订未执行授权数据上的端到端重算。
+需按输入路径设置后运行。受支持的后处理流水线已在授权本地输入上通过空输出目录重算，详见 `MONTE_CARLO_REPRODUCTION.md`。
 
-`strict_subject_aggregated_stats.csv` 为恢复的原版汇总表，不含个体标识。
-其历史 Monte Carlo `permutation_p=0` 值尚未重算，不应解释为真实概率为零；
-统计修订需结合重采样次数及原检验实现完成，不能仅将零替换为任意小数。
+`strict_subject_aggregated_stats.csv` 不含个体标识，已与 Singh 和调度消融的四份比较表一并重算。
+Monte Carlo 检验使用 `(b+1)/(B+1)`，B=10000；不是将零替换为任意小数。
+本次不宣称已完成基础模型训练或全部历史外部实验的端到端复现。
 
 代码授权状态见根目录 `LICENSE_STATUS.md`。
 
